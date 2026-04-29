@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sofia Crisafulli - Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #1a1a24;
+    --surface: #1e1e2e;
+    --surface2: #252535;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --accent3: #c4b5fd;
+    --text: #e8e6f0;
+    --text2: #a09cb8;
+    --text3: #6b6780;
+    --border: rgba(124, 106, 247, 0.18);
+    --border2: rgba(255,255,255,0.06);
+    --green: #4ade80;
+    --teal: #2dd4bf;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border2);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .nav-links a:hover { color: var(--accent2); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--accent2);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 56px; left: 0; right: 0;
+    background: rgba(10,10,15,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border2);
+    z-index: 99;
+    flex-direction: column;
+    padding: 1.5rem 2rem;
+    gap: 1.25rem;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--text2);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--accent2); }
+
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
+
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 80px 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(124,106,247,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 70%, rgba(45,212,191,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(124,106,247,0.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(124,106,247,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 700px; }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,106,247,0.12);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.08em;
+  }
+
+  .dot-blink {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-name {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #e8e6f0 0%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem;
+    color: var(--accent2);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text2);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: #6a58e0; transform: translateY(-1px); }
+
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-ghost:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  section { padding: 6rem 4rem; max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-line {
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--teal));
+    border-radius: 2px;
+    margin-bottom: 3rem;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-text { font-size: 1rem; color: var(--text2); line-height: 1.8; }
+  .about-text p + p { margin-top: 1rem; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.8rem;
+    color: var(--accent2);
+    font-weight: 700;
+    display: block;
+  }
+
+  .stat-label { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+  }
+
+  .tech-chip {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text2);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    cursor: default;
+  }
+
+  .tech-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent2);
+    background: rgba(124,106,247,0.08);
+  }
+
+  .tech-icon { font-size: 20px; display: block; margin-bottom: 6px; }
+
+  .timeline { position: relative; padding-left: 2rem; }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+  }
+
+  .timeline-item { position: relative; margin-bottom: 2.5rem; padding-left: 1.5rem; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(124,106,247,0.2);
+  }
+
+  .timeline-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .timeline-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .timeline-sub { font-size: 13px; color: var(--text3); margin-bottom: 8px; }
+  .timeline-desc { font-size: 13px; color: var(--text2); line-height: 1.7; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--teal));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .project-card:hover { border-color: rgba(124,106,247,0.4); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-icon { font-size: 28px; margin-bottom: 1rem; }
+  .project-title { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+  .project-desc { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 1rem; }
+
+  .project-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
+
+  .tag {
+    background: rgba(124,106,247,0.1);
+    border: 1px solid rgba(124,106,247,0.2);
+    color: var(--accent3);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .project-link {
+    font-size: 12px;
+    color: var(--accent2);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Space Mono', monospace;
+    transition: color 0.2s;
+  }
+
+  .project-link:hover { color: var(--accent3); }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contact-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .contact-desc { font-size: 1rem; color: var(--text2); margin-bottom: 2rem; line-height: 1.7; }
+  .contact-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(124,106,247,0.1);
+    border: 1px solid var(--border);
+    color: var(--accent2);
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .contact-btn:hover { background: rgba(124,106,247,0.2); border-color: var(--accent2); }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border2);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .course-platform {
+    font-size: 11px;
+    color: var(--teal);
+    font-family: 'Space Mono', monospace;
+    margin-bottom: 4px;
+  }
+
+  .full-section {
+    background: var(--bg2);
+    padding: 6rem 0;
+  }
+
+  .full-section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  @media (max-width: 700px) {
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 80px 1.5rem 3rem; }
+    .about-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 1rem; }
+    .nav-links { gap: 1rem; }
+    .contact-card { padding: 2rem 1.25rem; }
+    .full-section-inner { padding: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">SC_</span>
+  <ul class="nav-links">
+    <li><a href="#sobre-mi">sobre mi</a></li>
+    <li><a href="#tecnologias">stack</a></li>
+    <li><a href="#estudios">estudios</a></li>
+    <li><a href="#experiencia">experiencia</a></li>
+    <li><a href="#proyectos">proyectos</a></li>
+    <li><a href="#contacto">contacto</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#sobre-mi">sobre mi</a>
+  <a href="#tecnologias">stack</a>
+  <a href="#estudios">estudios</a>
+  <a href="#experiencia">experiencia</a>
+  <a href="#proyectos">proyectos</a>
+  <a href="#contacto">contacto</a>
+</div>
+
+<script>
+  const btn = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  });
+  menu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      btn.classList.remove('open');
+      menu.classList.remove('open');
+    });
+  });
+</script>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="dot-blink"></span>
+      disponible para nuevos proyectos
+    </div>
+    <h1 class="hero-name">Sofia<br>Crisafulli</h1>
+    <p class="hero-role">Lic. en Ciencias de la Computación</p>
+    <p class="hero-desc">Construyo interfaces que comunican, funcionan y se sienten bien. Apasionada por el código limpio, los buenos diseños y los problemas difíciles.</p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#proyectos">Ver proyectos</a>
+      <a class="btn-ghost" href="#contacto">Contacto</a>
+    </div>
+  </div>
+</div>
+
+<!-- SOBRE MÍ -->
+<section id="sobre-mi">
+  <p class="section-label">01 / sobre mí</p>
+  <h2 class="section-title">Quién soy</h2>
+  <div class="section-line"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Soy Licenciada en Ciencias de la Computación por la Universidad Nacional del Sur. Me especializo en desarrollo frontend, con experiencia construyendo interfaces de usuario, integrando APIs y trabajando en equipos ágiles.</p>
+      <p>Me interesa particularmente la intersección entre el diseño y la tecnología — crear productos que no solo funcionen bien, sino que también se sientan intuitivos para quien los usa.</p>
+      <p>También cuento con experiencia como analista funcional, lo que me permite entender el negocio detrás de cada solución técnica.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <span class="stat-num">12+</span>
+        <span class="stat-label">Lenguajes &amp; tecnologías</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Proyectos desarrollados</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">6</span>
+        <span class="stat-label">Años de formación universitaria</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">UNS</span>
+        <span class="stat-label">Universidad Nacional del Sur</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍAS -->
+<div class="full-section" id="tecnologias">
+  <div class="full-section-inner">
+    <p class="section-label">02 / stack tecnológico</p>
+    <h2 class="section-title">Tecnologías</h2>
+    <div class="section-line"></div>
+    <div class="tech-grid">
+      <div class="tech-chip"><span class="tech-icon">☕</span>Java</div>
+      <div class="tech-chip"><span class="tech-icon">⚙️</span>C</div>
+      <div class="tech-chip"><span class="tech-icon">📐</span>Pascal</div>
+      <div class="tech-chip"><span class="tech-icon">🌐</span>JavaScript</div>
+      <div class="tech-chip"><span class="tech-icon">🏷️</span>HTML</div>
+      <div class="tech-chip"><span class="tech-icon">🎨</span>CSS</div>
+      <div class="tech-chip"><span class="tech-icon">🐍</span>Python</div>
+      <div class="tech-chip"><span class="tech-icon">🗄️</span>SQL</div>
+      <div class="tech-chip"><span class="tech-icon">λ</span>SML</div>
+      <div class="tech-chip"><span class="tech-icon">💎</span>Smalltalk</div>
+      <div class="tech-chip"><span class="tech-icon">🔷</span>TypeScript</div>
+      <div class="tech-chip"><span class="tech-icon">⚛️</span>React</div>
+    </div>
+  </div>
+</div>
+
+<!-- ESTUDIOS -->
+<section id="estudios">
+  <p class="section-label">03 / formación</p>
+  <h2 class="section-title">Estudios</h2>
+  <div class="section-line"></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2018 — 2024</div>
+      <div class="timeline-title">Licenciatura en Ciencias de la Computación</div>
+      <div class="timeline-sub">Universidad Nacional del Sur</div>
+      <div class="timeline-desc">Tesis: Análisis de la utilidad de Gemini (IA de Google) en la generación automatizada de pruebas funcionales, comparando casos de prueba personalizados con los generados por la IA.</div>
+    </div>
+  </div>
+  <h3 style="font-size: 1rem; color: var(--text2); margin-bottom: 1rem; font-weight: 500;">Cursos y certificaciones</h3>
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-platform">Udemy</div>
+      AWS — Amazon Web Services
+    </div>
+    <div class="course-card">
+      <div class="course-platform">Coursera</div>
+      Fundamentos de Ciberseguridad
+    </div>
+    <div class="course-card">
+      <div class="course-platform">Coursera</div>
+      Juegue sobre seguro: Gestionar los Riesgos de Seguridad
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCIA -->
+<div class="full-section" id="experiencia">
+  <div class="full-section-inner">
+    <p class="section-label">04 / trayectoria</p>
+    <h2 class="section-title">Experiencia</h2>
+    <div class="section-line"></div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Mar. 2025 — Sep. 2025 · DITyC</div>
+        <div class="timeline-title">Analista Funcional Odoo</div>
+        <div class="timeline-sub">Sector público</div>
+        <div class="timeline-desc">Relevamiento y análisis de datos, identificación de necesidades. Responsable de la gestión y optimización de inventario, productos y rutas en Odoo. Ajuste de configuraciones para asegurar el correcto funcionamiento de procesos de stock y logística.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2025 · Freelance</div>
+        <div class="timeline-title">Desarrolladora Frontend</div>
+        <div class="timeline-sub">Proyecto freelance</div>
+        <div class="timeline-desc">Integración de la interfaz de usuario, login y registro con validación de correo electrónico. Colaboración en equipo para garantizar una integración segura y fluida.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2024 · Freelance</div>
+        <div class="timeline-title">Desarrolladora Full Stack</div>
+        <div class="timeline-sub">Proyecto freelance</div>
+        <div class="timeline-desc">Desarrollo de una aplicación web full stack utilizando JavaScript, HTML, CSS, Node.js y React.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <p class="section-label">05 / portfolio</p>
+  <h2 class="section-title">Proyectos</h2>
+  <div class="section-line"></div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-icon">⚙️</div>
+      <div class="project-title">Compilador</div>
+      <div class="project-desc">Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico.</div>
+      <div class="project-tags">
+        <span class="tag">Compiladores</span>
+        <span class="tag">2023</span>
+      </div>
+      <a class="project-link" href="https://github.com/SofiaCrisafulli/CompiladorSofi2023" target="_blank">github.com/SofiaCrisafulli ↗</a>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🎮</div>
+      <div class="project-title">Juego Multihilo en Java</div>
+      <div class="project-desc">Implementación de un juego en Java utilizando patrones de diseño (Singleton, Strategy, Observer) y programación multihilo para la gestión concurrente.</div>
+      <div class="project-tags">
+        <span class="tag">Java</span>
+        <span class="tag">Multihilo</span>
+        <span class="tag">2020</span>
+      </div>
+      <a class="project-link" href="https://github.com/SofiaCrisafulli/Tdp-proyecto" target="_blank">github.com/SofiaCrisafulli ↗</a>
+    </div>
+    <div class="project-card">
+      <div class="project-icon">🌐</div>
+      <div class="project-title">App Web Full Stack</div>
+      <div class="project-desc">Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.</div>
+      <div class="project-tags">
+        <span class="tag">React</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">2024</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<div class="full-section" id="contacto">
+  <div class="full-section-inner" style="text-align: center;">
+    <p class="section-label" style="text-align:center;">06 / contacto</p>
+    <h2 class="section-title" style="text-align:center;">Hablemos</h2>
+    <div class="section-line" style="margin: 0 auto 3rem;"></div>
+    <div class="contact-card">
+      <p class="contact-desc">¿Tenés un proyecto en mente o querés saber más sobre mi trabajo? Estoy disponible para oportunidades freelance y posiciones full-time.</p>
+      <div class="contact-links">
+        <a class="contact-btn" href="https://github.com/SofiaCrisafulli" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <a class="contact-btn" href="mailto:sofiacrisafulli@gmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+          Email
+        </a>
+        <a class="contact-btn" href="https://linkedin.com/in/sofiacrisafulli" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span style="color: var(--accent2);">Sofia Crisafulli</span> · Frontend Developer · 2025
+</footer>
+
+</body>
+</html>
