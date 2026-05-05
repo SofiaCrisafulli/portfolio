@@ -485,14 +485,31 @@
     padding: 1rem 1.25rem;
     font-size: 13px;
     color: var(--text2);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
   .course-platform {
     font-size: 11px;
     color: var(--teal);
     font-family: 'Space Mono', monospace;
-    margin-bottom: 4px;
   }
+
+  .course-verify {
+    font-size: 11px;
+    color: var(--accent2);
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: auto;
+    opacity: 0.75;
+    transition: opacity 0.2s;
+  }
+
+  .course-verify:hover { opacity: 1; }
 
   .full-section {
     background: var(--bg2);
@@ -649,15 +666,23 @@
   <div class="courses-grid">
     <div class="course-card">
       <div class="course-platform">Udemy</div>
-      AWS — Amazon Web Services
+      Amazon AWS Desarrollo. Curso de AWS programador certificado
+      <a class="course-verify" href="https://ude.my/UC-3966c544-6066-4e02-a95c-f7bdbbf05dfa" target="_blank">Ver certificado ↗</a>
     </div>
     <div class="course-card">
-      <div class="course-platform">Coursera</div>
-      Fundamentos de Ciberseguridad
+      <div class="course-platform">Coursera · Google</div>
+      Foundations of Cybersecurity
+      <a class="course-verify" href="https://coursera.org/verify/7Z1MBH8YLKWE" target="_blank">Ver certificado ↗</a>
     </div>
     <div class="course-card">
-      <div class="course-platform">Coursera</div>
-      Juegue sobre seguro: Gestionar los Riesgos de Seguridad
+      <div class="course-platform">Coursera · Google</div>
+      Play It Safe: Manage Security Risks
+      <a class="course-verify" href="https://coursera.org/verify/GSLTJQ63S96H" target="_blank">Ver certificado ↗</a>
+    </div>
+    <div class="course-card">
+      <div class="course-platform">Edutin Academy</div>
+      Software Testing Fundamentals
+      <a class="course-verify" href="https://app.edutin.com/verify/17740017" target="_blank">Ver certificado ↗</a>
     </div>
   </div>
 </section>
