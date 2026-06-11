@@ -61,6 +61,7 @@
     display: flex;
     gap: 2rem;
     list-style: none;
+    align-items: center;
   }
 
   .nav-links a {
@@ -73,6 +74,40 @@
   }
 
   .nav-links a:hover { color: var(--accent2); }
+
+  /* Language toggle */
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(124,106,247,0.08);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 9px;
+    border-radius: 5px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    transition: background 0.18s, color 0.18s;
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .lang-btn:hover:not(.active) { color: var(--accent2); }
 
   .hamburger {
     display: none;
@@ -125,6 +160,31 @@
 
   .mobile-menu a:last-child { border-bottom: none; }
   .mobile-menu a:hover { color: var(--accent2); }
+
+  .mobile-lang {
+    display: flex;
+    gap: 8px;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .mobile-lang-btn {
+    background: rgba(124,106,247,0.08);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 14px;
+    color: var(--text3);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+  }
+
+  .mobile-lang-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
 
   @media (max-width: 640px) {
     .nav-links { display: none; }
@@ -522,6 +582,14 @@
     padding: 0 4rem;
   }
 
+  /* Language transition */
+  [data-i18n] {
+    transition: opacity 0.15s ease;
+  }
+  body.lang-switching [data-i18n] {
+    opacity: 0;
+  }
+
   @media (max-width: 700px) {
     section { padding: 4rem 1.5rem; }
     #hero { padding: 80px 1.5rem 3rem; }
@@ -538,12 +606,18 @@
 <nav>
   <span class="nav-logo">SC_</span>
   <ul class="nav-links">
-    <li><a href="#sobre-mi">sobre mi</a></li>
-    <li><a href="#tecnologias">stack</a></li>
-    <li><a href="#estudios">estudios</a></li>
-    <li><a href="#experiencia">experiencia</a></li>
-    <li><a href="#proyectos">proyectos</a></li>
-    <li><a href="#contacto">contacto</a></li>
+    <li><a href="#sobre-mi" data-i18n="nav_about">sobre mi</a></li>
+    <li><a href="#tecnologias" data-i18n="nav_stack">stack</a></li>
+    <li><a href="#estudios" data-i18n="nav_education">estudios</a></li>
+    <li><a href="#experiencia" data-i18n="nav_experience">experiencia</a></li>
+    <li><a href="#proyectos" data-i18n="nav_projects">proyectos</a></li>
+    <li><a href="#contacto" data-i18n="nav_contact">contacto</a></li>
+    <li>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-btn active" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Menú">
     <span></span><span></span><span></span>
@@ -551,28 +625,17 @@
 </nav>
 
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#sobre-mi">sobre mi</a>
-  <a href="#tecnologias">stack</a>
-  <a href="#estudios">estudios</a>
-  <a href="#experiencia">experiencia</a>
-  <a href="#proyectos">proyectos</a>
-  <a href="#contacto">contacto</a>
+  <div class="mobile-lang">
+    <button class="mobile-lang-btn active" data-lang="es">ES</button>
+    <button class="mobile-lang-btn" data-lang="en">EN</button>
+  </div>
+  <a href="#sobre-mi" data-i18n="nav_about">sobre mi</a>
+  <a href="#tecnologias" data-i18n="nav_stack">stack</a>
+  <a href="#estudios" data-i18n="nav_education">estudios</a>
+  <a href="#experiencia" data-i18n="nav_experience">experiencia</a>
+  <a href="#proyectos" data-i18n="nav_projects">proyectos</a>
+  <a href="#contacto" data-i18n="nav_contact">contacto</a>
 </div>
-
-<script>
-  const btn = document.getElementById('hamburger');
-  const menu = document.getElementById('mobile-menu');
-  btn.addEventListener('click', () => {
-    btn.classList.toggle('open');
-    menu.classList.toggle('open');
-  });
-  menu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      btn.classList.remove('open');
-      menu.classList.remove('open');
-    });
-  });
-</script>
 
 <!-- HERO -->
 <div id="hero">
@@ -581,45 +644,45 @@
   <div class="hero-content">
     <div class="hero-tag">
       <span class="dot-blink"></span>
-      disponible para nuevos proyectos
+      <span data-i18n="hero_available">disponible para nuevos proyectos</span>
     </div>
     <h1 class="hero-name">Sofia<br>Crisafulli</h1>
-    <p class="hero-role">Lic. en Ciencias de la Computación</p>
-    <p class="hero-desc">Construyo interfaces que comunican, funcionan y se sienten bien. Apasionada por el código limpio, los buenos diseños y los problemas difíciles.</p>
+    <p class="hero-role" data-i18n="hero_role">Lic. en Ciencias de la Computación</p>
+    <p class="hero-desc" data-i18n="hero_desc">Construyo interfaces que comunican, funcionan y se sienten bien. Apasionada por el código limpio, los buenos diseños y los problemas difíciles.</p>
     <div class="hero-ctas">
-      <a class="btn-primary" href="#proyectos">Ver proyectos</a>
-      <a class="btn-ghost" href="#contacto">Contacto</a>
+      <a class="btn-primary" href="#proyectos" data-i18n="hero_cta_projects">Ver proyectos</a>
+      <a class="btn-ghost" href="#contacto" data-i18n="hero_cta_contact">Contacto</a>
     </div>
   </div>
 </div>
 
 <!-- SOBRE MÍ -->
 <section id="sobre-mi">
-  <p class="section-label">01 / sobre mí</p>
-  <h2 class="section-title">Quién soy</h2>
+  <p class="section-label" data-i18n="about_label">01 / sobre mí</p>
+  <h2 class="section-title" data-i18n="about_title">Quién soy</h2>
   <div class="section-line"></div>
   <div class="about-grid">
     <div class="about-text">
-      <p>Soy Licenciada en Ciencias de la Computación por la Universidad Nacional del Sur. Me especializo en desarrollo frontend, con experiencia construyendo interfaces de usuario, integrando APIs y trabajando en equipos ágiles.</p>
-      <p>Me interesa particularmente la intersección entre el diseño y la tecnología — crear productos que no solo funcionen bien, sino que también se sientan intuitivos para quien los usa.</p>
-      <p>También cuento con experiencia como analista funcional, lo que me permite entender el negocio detrás de cada solución técnica.</p>
+      <p data-i18n="about_p1">Soy Licenciada en Ciencias de la Computación por la Universidad Nacional del Sur. Me especializo en desarrollo frontend, con experiencia construyendo interfaces de usuario, integrando APIs y trabajando en equipos ágiles.</p>
+      <p data-i18n="about_p2">Me interesa particularmente la intersección entre el diseño y la tecnología — crear productos que no solo funcionen bien, sino que también se sientan intuitivos para quien los usa.</p>
+      <p data-i18n="about_p3">También cuento con experiencia como analista funcional, lo que me permite entender el negocio detrás de cada solución técnica.</p>
     </div>
     <div class="about-stats">
       <div class="stat-card">
         <span class="stat-num">12+</span>
-        <span class="stat-label">Lenguajes &amp; tecnologías</span>
+        <span class="stat-label" data-i18n="stat_tech">Lenguajes &amp; tecnologías</span>
       </div>
       <div class="stat-card">
         <span class="stat-num">3+</span>
-        <span class="stat-label">Proyectos desarrollados</span>
+        <span class="stat-label" data-i18n="stat_projects">Proyectos desarrollados</span>
       </div>
       <div class="stat-card">
         <span class="stat-num">6</span>
-        <span class="stat-label">Años de formación universitaria</span>
+        <span class="stat-label" data-i18n="stat_years">Años de formación universitaria</span>
       </div>
       <div class="stat-card">
         <span class="stat-num">UNS</span>
-        <span class="stat-label">Universidad Nacional del Sur</span>
+        <span class="stat-label" data-i18n="stat_uni">Universidad Nacional del Sur</span>
       </div>
     </div>
   </div>
@@ -628,8 +691,8 @@
 <!-- TECNOLOGÍAS -->
 <div class="full-section" id="tecnologias">
   <div class="full-section-inner">
-    <p class="section-label">02 / stack tecnológico</p>
-    <h2 class="section-title">Tecnologías</h2>
+    <p class="section-label" data-i18n="tech_label">02 / stack tecnológico</p>
+    <h2 class="section-title" data-i18n="tech_title">Tecnologías</h2>
     <div class="section-line"></div>
     <div class="tech-grid">
       <div class="tech-chip"><span class="tech-icon">☕</span>Java</div>
@@ -650,39 +713,39 @@
 
 <!-- ESTUDIOS -->
 <section id="estudios">
-  <p class="section-label">03 / formación</p>
-  <h2 class="section-title">Estudios</h2>
+  <p class="section-label" data-i18n="edu_label">03 / formación</p>
+  <h2 class="section-title" data-i18n="edu_title">Estudios</h2>
   <div class="section-line"></div>
   <div class="timeline">
     <div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-date">2018 — 2024</div>
-      <div class="timeline-title">Licenciatura en Ciencias de la Computación</div>
+      <div class="timeline-title" data-i18n="edu_degree">Licenciatura en Ciencias de la Computación</div>
       <div class="timeline-sub">Universidad Nacional del Sur</div>
-      <div class="timeline-desc">Tesis: Análisis de la utilidad de Gemini (IA de Google) en la generación automatizada de pruebas funcionales, comparando casos de prueba personalizados con los generados por la IA.</div>
+      <div class="timeline-desc" data-i18n="edu_thesis">Tesis: Análisis de la utilidad de Gemini (IA de Google) en la generación automatizada de pruebas funcionales, comparando casos de prueba personalizados con los generados por la IA.</div>
     </div>
   </div>
-  <h3 style="font-size: 1rem; color: var(--text2); margin-bottom: 1rem; font-weight: 500;">Cursos y certificaciones</h3>
+  <h3 style="font-size: 1rem; color: var(--text2); margin-bottom: 1rem; font-weight: 500;" data-i18n="certs_title">Cursos y certificaciones</h3>
   <div class="courses-grid">
     <div class="course-card">
       <div class="course-platform">Udemy</div>
-      Amazon AWS Desarrollo. Curso de AWS programador certificado
-      <a class="course-verify" href="https://ude.my/UC-3966c544-6066-4e02-a95c-f7bdbbf05dfa" target="_blank">Ver certificado ↗</a>
+      <span data-i18n="cert_aws">Amazon AWS Desarrollo. Curso de AWS programador certificado</span>
+      <a class="course-verify" href="https://ude.my/UC-3966c544-6066-4e02-a95c-f7bdbbf05dfa" target="_blank" data-i18n="cert_view">Ver certificado ↗</a>
     </div>
     <div class="course-card">
       <div class="course-platform">Coursera · Google</div>
-      Foundations of Cybersecurity
-      <a class="course-verify" href="https://coursera.org/verify/7Z1MBH8YLKWE" target="_blank">Ver certificado ↗</a>
+      <span data-i18n="cert_cybersec1">Foundations of Cybersecurity</span>
+      <a class="course-verify" href="https://coursera.org/verify/7Z1MBH8YLKWE" target="_blank" data-i18n="cert_view2">Ver certificado ↗</a>
     </div>
     <div class="course-card">
       <div class="course-platform">Coursera · Google</div>
-      Play It Safe: Manage Security Risks
-      <a class="course-verify" href="https://coursera.org/verify/GSLTJQ63S96H" target="_blank">Ver certificado ↗</a>
+      <span data-i18n="cert_cybersec2">Play It Safe: Manage Security Risks</span>
+      <a class="course-verify" href="https://coursera.org/verify/GSLTJQ63S96H" target="_blank" data-i18n="cert_view3">Ver certificado ↗</a>
     </div>
     <div class="course-card">
       <div class="course-platform">Edutin Academy</div>
-      Software Testing Fundamentals
-      <a class="course-verify" href="https://app.edutin.com/verify/17740017" target="_blank">Ver certificado ↗</a>
+      <span data-i18n="cert_testing">Software Testing Fundamentals</span>
+      <a class="course-verify" href="https://app.edutin.com/verify/17740017" target="_blank" data-i18n="cert_view4">Ver certificado ↗</a>
     </div>
   </div>
 </section>
@@ -690,30 +753,30 @@
 <!-- EXPERIENCIA -->
 <div class="full-section" id="experiencia">
   <div class="full-section-inner">
-    <p class="section-label">04 / trayectoria</p>
-    <h2 class="section-title">Experiencia</h2>
+    <p class="section-label" data-i18n="exp_label">04 / trayectoria</p>
+    <h2 class="section-title" data-i18n="exp_title">Experiencia</h2>
     <div class="section-line"></div>
     <div class="timeline">
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">Mar. 2025 — Sep. 2025 · DITyC</div>
-        <div class="timeline-title">Analista Funcional Odoo</div>
-        <div class="timeline-sub">Sector público</div>
-        <div class="timeline-desc">Relevamiento y análisis de datos, identificación de necesidades. Responsable de la gestión y optimización de inventario, productos y rutas en Odoo. Ajuste de configuraciones para asegurar el correcto funcionamiento de procesos de stock y logística.</div>
+        <div class="timeline-date" data-i18n="exp1_date">Mar. 2025 — Sep. 2025 · DITyC</div>
+        <div class="timeline-title" data-i18n="exp1_title">Analista Funcional Odoo</div>
+        <div class="timeline-sub" data-i18n="exp1_sub">Sector público</div>
+        <div class="timeline-desc" data-i18n="exp1_desc">Relevamiento y análisis de datos, identificación de necesidades. Responsable de la gestión y optimización de inventario, productos y rutas en Odoo. Ajuste de configuraciones para asegurar el correcto funcionamiento de procesos de stock y logística.</div>
       </div>
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">2025 · Freelance</div>
-        <div class="timeline-title">Desarrolladora Frontend</div>
-        <div class="timeline-sub">Proyecto freelance</div>
-        <div class="timeline-desc">Integración de la interfaz de usuario, login y registro con validación de correo electrónico. Colaboración en equipo para garantizar una integración segura y fluida.</div>
+        <div class="timeline-date" data-i18n="exp2_date">2025 · Freelance</div>
+        <div class="timeline-title" data-i18n="exp2_title">Desarrolladora Frontend</div>
+        <div class="timeline-sub" data-i18n="exp2_sub">Proyecto freelance</div>
+        <div class="timeline-desc" data-i18n="exp2_desc">Integración de la interfaz de usuario, login y registro con validación de correo electrónico. Colaboración en equipo para garantizar una integración segura y fluida.</div>
       </div>
       <div class="timeline-item">
         <div class="timeline-dot"></div>
-        <div class="timeline-date">2024 · Freelance</div>
-        <div class="timeline-title">Desarrolladora Full Stack</div>
-        <div class="timeline-sub">Proyecto freelance</div>
-        <div class="timeline-desc">Desarrollo de una aplicación web full stack utilizando JavaScript, HTML, CSS, Node.js y React.</div>
+        <div class="timeline-date" data-i18n="exp3_date">2024 · Freelance</div>
+        <div class="timeline-title" data-i18n="exp3_title">Desarrolladora Full Stack</div>
+        <div class="timeline-sub" data-i18n="exp3_sub">Proyecto freelance</div>
+        <div class="timeline-desc" data-i18n="exp3_desc">Desarrollo de una aplicación web full stack utilizando JavaScript, HTML, CSS, Node.js y React.</div>
       </div>
     </div>
   </div>
@@ -721,35 +784,35 @@
 
 <!-- PROYECTOS -->
 <section id="proyectos">
-  <p class="section-label">05 / portfolio</p>
-  <h2 class="section-title">Proyectos</h2>
+  <p class="section-label" data-i18n="proj_label">05 / portfolio</p>
+  <h2 class="section-title" data-i18n="proj_title">Proyectos</h2>
   <div class="section-line"></div>
   <div class="projects-grid">
     <div class="project-card">
       <div class="project-icon">⚙️</div>
-      <div class="project-title">Compilador</div>
-      <div class="project-desc">Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico.</div>
+      <div class="project-title" data-i18n="proj1_title">Compilador</div>
+      <div class="project-desc" data-i18n="proj1_desc">Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico.</div>
       <div class="project-tags">
-        <span class="tag">Compiladores</span>
+        <span class="tag" data-i18n="proj1_tag1">Compiladores</span>
         <span class="tag">2023</span>
       </div>
       <a class="project-link" href="https://github.com/SofiaCrisafulli/CompiladorSofi2023" target="_blank">github.com/SofiaCrisafulli ↗</a>
     </div>
     <div class="project-card">
       <div class="project-icon">🎮</div>
-      <div class="project-title">Juego Multihilo en Java</div>
-      <div class="project-desc">Implementación de un juego en Java utilizando patrones de diseño (Singleton, Strategy, Observer) y programación multihilo para la gestión concurrente.</div>
+      <div class="project-title" data-i18n="proj2_title">Juego Multihilo en Java</div>
+      <div class="project-desc" data-i18n="proj2_desc">Implementación de un juego en Java utilizando patrones de diseño (Singleton, Strategy, Observer) y programación multihilo para la gestión concurrente.</div>
       <div class="project-tags">
         <span class="tag">Java</span>
-        <span class="tag">Multihilo</span>
+        <span class="tag" data-i18n="proj2_tag">Multihilo</span>
         <span class="tag">2020</span>
       </div>
       <a class="project-link" href="https://github.com/SofiaCrisafulli/Tdp-proyecto" target="_blank">github.com/SofiaCrisafulli ↗</a>
     </div>
     <div class="project-card">
       <div class="project-icon">🌐</div>
-      <div class="project-title">App Web Full Stack</div>
-      <div class="project-desc">Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.</div>
+      <div class="project-title" data-i18n="proj3_title">App Web Full Stack</div>
+      <div class="project-desc" data-i18n="proj3_desc">Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.</div>
       <div class="project-tags">
         <span class="tag">React</span>
         <span class="tag">Node.js</span>
@@ -762,11 +825,11 @@
 <!-- CONTACTO -->
 <div class="full-section" id="contacto">
   <div class="full-section-inner" style="text-align: center;">
-    <p class="section-label" style="text-align:center;">06 / contacto</p>
-    <h2 class="section-title" style="text-align:center;">Hablemos</h2>
+    <p class="section-label" style="text-align:center;" data-i18n="contact_label">06 / contacto</p>
+    <h2 class="section-title" style="text-align:center;" data-i18n="contact_title">Hablemos</h2>
     <div class="section-line" style="margin: 0 auto 3rem;"></div>
     <div class="contact-card">
-      <p class="contact-desc">¿Tenés un proyecto en mente o querés saber más sobre mi trabajo? Estoy disponible para oportunidades freelance y posiciones full-time.</p>
+      <p class="contact-desc" data-i18n="contact_desc">¿Tenés un proyecto en mente o querés saber más sobre mi trabajo? Estoy disponible para oportunidades freelance y posiciones full-time.</p>
       <div class="contact-links">
         <a class="contact-btn" href="https://github.com/SofiaCrisafulli" target="_blank">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -786,8 +849,195 @@
 </div>
 
 <footer>
-  <span style="color: var(--accent2);">Sofia Crisafulli</span> · Frontend Developer · 2025
+  <span style="color: var(--accent2);">Sofia Crisafulli</span> · <span data-i18n="footer_role">Frontend Developer</span> · 2025
 </footer>
+
+<script>
+const translations = {
+  es: {
+    nav_about: "sobre mi",
+    nav_stack: "stack",
+    nav_education: "estudios",
+    nav_experience: "experiencia",
+    nav_projects: "proyectos",
+    nav_contact: "contacto",
+    hero_available: "disponible para nuevos proyectos",
+    hero_role: "Lic. en Ciencias de la Computación",
+    hero_desc: "Construyo interfaces que comunican, funcionan y se sienten bien. Apasionada por el código limpio, los buenos diseños y los problemas difíciles.",
+    hero_cta_projects: "Ver proyectos",
+    hero_cta_contact: "Contacto",
+    about_label: "01 / sobre mí",
+    about_title: "Quién soy",
+    about_p1: "Soy Licenciada en Ciencias de la Computación por la Universidad Nacional del Sur. Me especializo en desarrollo frontend, con experiencia construyendo interfaces de usuario, integrando APIs y trabajando en equipos ágiles.",
+    about_p2: "Me interesa particularmente la intersección entre el diseño y la tecnología — crear productos que no solo funcionen bien, sino que también se sientan intuitivos para quien los usa.",
+    about_p3: "También cuento con experiencia como analista funcional, lo que me permite entender el negocio detrás de cada solución técnica.",
+    stat_tech: "Lenguajes & tecnologías",
+    stat_projects: "Proyectos desarrollados",
+    stat_years: "Años de formación universitaria",
+    stat_uni: "Universidad Nacional del Sur",
+    tech_label: "02 / stack tecnológico",
+    tech_title: "Tecnologías",
+    edu_label: "03 / formación",
+    edu_title: "Estudios",
+    edu_degree: "Licenciatura en Ciencias de la Computación",
+    edu_thesis: "Tesis: Análisis de la utilidad de Gemini (IA de Google) en la generación automatizada de pruebas funcionales, comparando casos de prueba personalizados con los generados por la IA.",
+    certs_title: "Cursos y certificaciones",
+    cert_aws: "Amazon AWS Desarrollo. Curso de AWS programador certificado",
+    cert_cybersec1: "Foundations of Cybersecurity",
+    cert_cybersec2: "Play It Safe: Manage Security Risks",
+    cert_testing: "Software Testing Fundamentals",
+    cert_view: "Ver certificado ↗",
+    cert_view2: "Ver certificado ↗",
+    cert_view3: "Ver certificado ↗",
+    cert_view4: "Ver certificado ↗",
+    exp_label: "04 / trayectoria",
+    exp_title: "Experiencia",
+    exp1_date: "Mar. 2025 — Sep. 2025 · DITyC",
+    exp1_title: "Analista Funcional Odoo",
+    exp1_sub: "Sector público",
+    exp1_desc: "Relevamiento y análisis de datos, identificación de necesidades. Responsable de la gestión y optimización de inventario, productos y rutas en Odoo. Ajuste de configuraciones para asegurar el correcto funcionamiento de procesos de stock y logística.",
+    exp2_date: "2025 · Freelance",
+    exp2_title: "Desarrolladora Frontend",
+    exp2_sub: "Proyecto freelance",
+    exp2_desc: "Integración de la interfaz de usuario, login y registro con validación de correo electrónico. Colaboración en equipo para garantizar una integración segura y fluida.",
+    exp3_date: "2024 · Freelance",
+    exp3_title: "Desarrolladora Full Stack",
+    exp3_sub: "Proyecto freelance",
+    exp3_desc: "Desarrollo de una aplicación web full stack utilizando JavaScript, HTML, CSS, Node.js y React.",
+    proj_label: "05 / portfolio",
+    proj_title: "Proyectos",
+    proj1_title: "Compilador",
+    proj1_desc: "Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico.",
+    proj1_tag1: "Compiladores",
+    proj2_title: "Juego Multihilo en Java",
+    proj2_desc: "Implementación de un juego en Java utilizando patrones de diseño (Singleton, Strategy, Observer) y programación multihilo para la gestión concurrente.",
+    proj2_tag: "Multihilo",
+    proj3_title: "App Web Full Stack",
+    proj3_desc: "Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.",
+    contact_label: "06 / contacto",
+    contact_title: "Hablemos",
+    contact_desc: "¿Tenés un proyecto en mente o querés saber más sobre mi trabajo? Estoy disponible para oportunidades freelance y posiciones full-time.",
+    footer_role: "Frontend Developer",
+  },
+  en: {
+    nav_about: "about me",
+    nav_stack: "stack",
+    nav_education: "education",
+    nav_experience: "experience",
+    nav_projects: "projects",
+    nav_contact: "contact",
+    hero_available: "available for new projects",
+    hero_role: "B.S. in Computer Science",
+    hero_desc: "I build interfaces that communicate, work well, and feel right. Passionate about clean code, thoughtful design, and hard problems.",
+    hero_cta_projects: "View projects",
+    hero_cta_contact: "Contact",
+    about_label: "01 / about me",
+    about_title: "Who I am",
+    about_p1: "I hold a Bachelor's degree in Computer Science from Universidad Nacional del Sur. I specialize in frontend development, with experience building user interfaces, integrating APIs, and working in agile teams.",
+    about_p2: "I'm particularly interested in the intersection of design and technology — creating products that not only work well but also feel intuitive for the people using them.",
+    about_p3: "I also have experience as a functional analyst, which allows me to understand the business context behind every technical solution.",
+    stat_tech: "Languages & technologies",
+    stat_projects: "Projects delivered",
+    stat_years: "Years of university training",
+    stat_uni: "Universidad Nacional del Sur",
+    tech_label: "02 / tech stack",
+    tech_title: "Technologies",
+    edu_label: "03 / education",
+    edu_title: "Studies",
+    edu_degree: "Bachelor's in Computer Science",
+    edu_thesis: "Thesis: Analysis of Gemini (Google AI) utility in the automated generation of functional test cases, comparing custom test cases with AI-generated ones.",
+    certs_title: "Courses & certifications",
+    cert_aws: "Amazon AWS Development. Certified AWS Developer Course",
+    cert_cybersec1: "Foundations of Cybersecurity",
+    cert_cybersec2: "Play It Safe: Manage Security Risks",
+    cert_testing: "Software Testing Fundamentals",
+    cert_view: "View certificate ↗",
+    cert_view2: "View certificate ↗",
+    cert_view3: "View certificate ↗",
+    cert_view4: "View certificate ↗",
+    exp_label: "04 / experience",
+    exp_title: "Experience",
+    exp1_date: "Mar. 2025 — Sep. 2025 · DITyC",
+    exp1_title: "Odoo Functional Analyst",
+    exp1_sub: "Public sector",
+    exp1_desc: "Data gathering and analysis, requirements identification. Responsible for managing and optimizing inventory, products, and routes in Odoo. Adjusted configurations to ensure correct stock and logistics processes.",
+    exp2_date: "2025 · Freelance",
+    exp2_title: "Frontend Developer",
+    exp2_sub: "Freelance project",
+    exp2_desc: "Integrated user interface, login, and registration with email validation. Collaborated with the team to ensure a secure and seamless integration.",
+    exp3_date: "2024 · Freelance",
+    exp3_title: "Full Stack Developer",
+    exp3_sub: "Freelance project",
+    exp3_desc: "Developed a full stack web application using JavaScript, HTML, CSS, Node.js, and React.",
+    proj_label: "05 / portfolio",
+    proj_title: "Projects",
+    proj1_title: "Compiler",
+    proj1_desc: "Design and implementation of a complete compiler, covering all compilation stages: lexical, syntactic, and semantic analysis.",
+    proj1_tag1: "Compilers",
+    proj2_title: "Multithreaded Java Game",
+    proj2_desc: "Java game implementation using design patterns (Singleton, Strategy, Observer) and multithreading for concurrent management.",
+    proj2_tag: "Multithreading",
+    proj3_title: "Full Stack Web App",
+    proj3_desc: "Development of a complete web application with integrated frontend and backend, using the modern JavaScript stack.",
+    contact_label: "06 / contact",
+    contact_title: "Let's talk",
+    contact_desc: "Have a project in mind or want to know more about my work? I'm available for freelance opportunities and full-time positions.",
+    footer_role: "Frontend Developer",
+  }
+};
+
+let currentLang = 'es';
+
+function applyLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  document.documentElement.lang = lang;
+  document.title = lang === 'en'
+    ? 'Sofia Crisafulli - Portfolio'
+    : 'Sofia Crisafulli - Portfolio';
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t[key] !== undefined) {
+      el.textContent = t[key];
+    }
+  });
+
+  // Update all lang buttons (nav + mobile)
+  document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+}
+
+// Attach click handlers to all lang buttons
+document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.getAttribute('data-lang');
+    if (lang !== currentLang) {
+      document.body.classList.add('lang-switching');
+      setTimeout(() => {
+        applyLang(lang);
+        document.body.classList.remove('lang-switching');
+      }, 150);
+    }
+  });
+});
+
+// Hamburger menu
+const hamburgerBtn = document.getElementById('hamburger');
+const mobileMenuEl = document.getElementById('mobile-menu');
+hamburgerBtn.addEventListener('click', () => {
+  hamburgerBtn.classList.toggle('open');
+  mobileMenuEl.classList.toggle('open');
+});
+mobileMenuEl.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburgerBtn.classList.remove('open');
+    mobileMenuEl.classList.remove('open');
+  });
+});
+</script>
 
 </body>
 </html>
