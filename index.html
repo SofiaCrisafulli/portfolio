@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -562,7 +562,7 @@
       <li><a href="#contacto" data-es="contacto" data-en="contact">contacto</a></li>
     </ul>
     <div class="lang-toggle" id="lang-toggle" aria-label="Cambiar idioma">
-      <span data-lang="es" class="active">ES</span><span data-lang="en">EN</span>
+      <span data-lang="es">ES</span><span data-lang="en" class="active">EN</span>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Menú">
       <span></span><span></span><span></span>
@@ -609,8 +609,10 @@
     if (!target) return;
     setLang(target.dataset.lang);
   });
-  const savedLang = localStorage.getItem('portfolio-lang');
-  if (savedLang === 'en') setLang('en');
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('portfolio-lang') || 'en';
+    setLang(savedLang);
+  });
 </script>
 
 <!-- HERO -->
@@ -768,6 +770,16 @@
       <a class="project-link" href="https://gifs-app-ahm7.vercel.app/" target="_blank">gifs-app-ahm7.vercel.app ↗</a>
     </div>
     <div class="project-card">
+      <div class="project-icon">🌐</div>
+      <div class="project-title" data-es="App Web Full Stack" data-en="Full Stack Web App">App Web Full Stack</div>
+      <div class="project-desc" data-es="Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno." data-en="Development of a complete web application with integrated frontend and backend, using the modern JavaScript stack.">Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.</div>
+      <div class="project-tags">
+        <span class="tag">React</span>
+        <span class="tag">Node.js</span>
+        <span class="tag">2024</span>
+      </div>
+    </div>
+    <div class="project-card">
       <div class="project-icon">⚙️</div>
       <div class="project-title" data-es="Compilador" data-en="Compiler">Compilador</div>
       <div class="project-desc" data-es="Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico." data-en="Design and implementation of a complete compiler, covering every stage of the compilation process: lexical, syntactic, and semantic analysis.">Diseño e implementación de un compilador completo, abarcando todas las etapas del proceso de compilación: análisis léxico, sintáctico y semántico.</div>
@@ -787,16 +799,6 @@
         <span class="tag">2020</span>
       </div>
       <a class="project-link" href="https://github.com/SofiaCrisafulli/Tdp-proyecto" target="_blank">github.com/SofiaCrisafulli ↗</a>
-    </div>
-    <div class="project-card">
-      <div class="project-icon">🌐</div>
-      <div class="project-title" data-es="App Web Full Stack" data-en="Full Stack Web App">App Web Full Stack</div>
-      <div class="project-desc" data-es="Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno." data-en="Development of a complete web application with integrated frontend and backend, using the modern JavaScript stack.">Desarrollo de una aplicación web completa con frontend y backend integrados, usando el stack JavaScript moderno.</div>
-      <div class="project-tags">
-        <span class="tag">React</span>
-        <span class="tag">Node.js</span>
-        <span class="tag">2024</span>
-      </div>
     </div>
   </div>
 </section>
